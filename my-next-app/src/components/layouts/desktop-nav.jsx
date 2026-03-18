@@ -2,8 +2,8 @@ import { Button } from "../ui/button";
 const DesktopNav = () => {
     return (
         <div className="flex justify-between items-center py-2 px-2">
-            <div className="flex items-center text-3xl font-bold"><span>A</span>
-                <div class="logo-text">Antbytes Labs</div>
+            <div className="flex items-center text-3xl font-bold gap-3"><span className="bg-black text-white px-2 py-1 rounded-lg">A</span>
+                <div className="logo-text">Antbytes Labs</div>
             </div>
             <nav>
                 <ul className="flex gap-5 list-none">
