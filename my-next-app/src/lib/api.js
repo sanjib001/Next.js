@@ -74,3 +74,30 @@ export const authAPI = {
         }
     },
 };
+
+// service API calls
+export const serviceAPI = {
+    // Register new user
+    createService: async (userData) => {
+        return apiCall('/services', {
+            method: 'POST',
+            body: JSON.stringify(userData),
+        });
+    },
+    getAllServices: async () => {
+        return apiCall('/services', {
+            method: 'GET'
+        });
+    },
+    updateService: async (userData, serviceId) => {
+        return apiCall(`/services/${serviceId}`, {
+            method: 'PUT',
+            body: JSON.stringify(userData),
+        });
+    },
+    deleteService: async (serviceId) => {
+        return apiCall(`/services/${serviceId}`, {
+            method: 'DELETE'
+        });
+    },
+};
