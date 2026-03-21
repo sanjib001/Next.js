@@ -7,7 +7,7 @@ import About from "../modules/about.jsx";
 
 const Main = () => {
     return (
-        <main className="py-[40px] px-[40px]">
+        <main className="py-[40px] px-[50px]">
             <Hero/>
             <Services/>
             <Portfolio/>

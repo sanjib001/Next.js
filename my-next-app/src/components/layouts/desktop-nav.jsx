@@ -33,11 +33,11 @@ const DesktopNav = () => {
             </div>
             <nav>
                 <ul className="flex gap-5 list-none">
-                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#">Services</a></li>
-                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#">Products</a></li>
-                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#">Projects</a></li>
-                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#">About</a></li>
-                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#">Contact</a></li>
+                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#services">Services</a></li>
+                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#portfolios">Portfolios</a></li>
+                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#partners">Partners</a></li>
+                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#about">About</a></li>
+                    <li><a className="bg-gray-100 hover:bg-gray-500 hover:text-white rounded-lg text-base px-3 py-3" href="#footer">Contact</a></li>
                 </ul>
             </nav>
 

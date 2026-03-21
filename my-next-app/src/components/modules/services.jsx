@@ -19,7 +19,7 @@ const Services = () => {
     }, [])
 
     return (
-        <section className="mb-10 pt-5 text-center" >
+        <section id="services" className="mb-10 pt-5 text-center" >
             <div className="inline-block px-4 py-2 rounded-full bg-gray-200 text-sm mb-2 capitalize text-brand-gray">
                 Our services
             </div>
