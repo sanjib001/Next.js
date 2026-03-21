@@ -1,9 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import {
-    LayoutDashboard,
     Settings,
     Briefcase,
     Users,
@@ -13,10 +11,16 @@ import {
     Image as ImageIcon
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function DashboardLayout({ children }) {
     const [activeTab, setActiveTab] = useState('services');
     const router = useRouter();
+
+    const handleSignOut = () => {
+        Cookies.remove("token")
+        router.push("/signin")
+    }
 
     const navigation = [
         { name: 'Hero Sections', href: '/dashboard/hero', icon: ImageIcon, id: 'hero' },
@@ -61,7 +65,9 @@ export default function DashboardLayout({ children }) {
                     <h2 className="text-xl font-semibold text-gray-800 capitalize">{activeTab} Management</h2>
                     <div className="flex items-center space-x-4">
                         <span className="text-sm text-gray-500">Admin User</span>
-                        <div className="h-8 w-8 rounded-full bg-blue-500"></div>
+                        <div className="text-md font-semibold text-gray cursor-pointer" onClick={handleSignOut}>
+                            Sign Out
+                        </div>
                     </div>
                 </header>
                 <div className="p-8">

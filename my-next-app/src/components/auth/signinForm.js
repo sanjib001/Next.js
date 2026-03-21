@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { authAPI } from '../../lib/api';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function SignInForm() {
     const router = useRouter();
@@ -70,15 +71,16 @@ export default function SignInForm() {
 
             // Store token and user data
             if (response.accessToken) {
+                // Set cookies instead of localStorage so Middleware can read them
+                // 'secure: true' ensures it's sent over HTTPS, 'sameSite: strict' prevents CSRF
+                Cookies.set('token', response.accessToken, { expires: 7, secure: true, sameSite: 'strict' });
+                Cookies.set('refresh_token', response.refreshToken, { expires: 30, secure: true, sameSite: 'strict' });
+
+                // Optional: Keep a copy in localStorage if your existing lib/api logic depends on it
                 localStorage.setItem('token', response.accessToken);
-                localStorage.setItem('refresh_token', response.refreshToken);
             }
-
-            // Show success message
-            alert('Sign in successful! Redirecting to dashboard...');
-
             // Redirect to dashboard or home
-            router.push('/');
+            router.push('/dashboard');
 
         } catch (error) {
             setApiError(error.message || 'Sign in failed. Please check your credentials.');

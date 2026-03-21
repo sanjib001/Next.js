@@ -50,7 +50,7 @@ export default function ServicesManager() {
             }
             alert(`Service ${isEditing ? 'updated' : 'created'} successfully!`);
             resetForm();
-            fetchServices(); //refresh the list after opetarion
+            fetchServices();
         } catch (error) {
             alert("Operation failed: " + error.message);
         } finally {

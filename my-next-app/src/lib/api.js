@@ -1,25 +1,30 @@
-console.log("ENV:", process.env.NEXT_PUBLIC_APP_URL);
-const API_URL = process.env.NEXT_PUBLIC_APP_URL;
+import Cookies from "js-cookie";
 
-async function apiCall(endpoint, options = {}) {
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+async function apiCall(endpoint, isJson, options = {}) {
     const url = `${API_URL}${endpoint}`;
 
     const defaultHeaders = {
         'Content-Type': 'application/json',
     };
 
-    // Merge default headers with provided headers
-    const headers = {
-        ...defaultHeaders,
-        ...options.headers,
-    };
+    let headers;
 
-    // If there's a token in localStorage, add it to headers
-    if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('token');
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
-        }
+    if (isJson) {
+        headers = {
+            ...defaultHeaders,
+            ...options.headers,
+        };
+    } else {
+        headers = {
+            ...options.headers,
+        };
+    }
+
+    const token = Cookies.get("token")
+    if(token){
+        headers['Authorization'] = `Bearer ${token}`;
     }
 
     const config = {
@@ -52,7 +57,7 @@ async function apiCall(endpoint, options = {}) {
 export const authAPI = {
     // Register new user
     register: async (userData) => {
-        return apiCall('/auth/register', {
+        return apiCall('/auth/register', true, {
             method: 'POST',
             body: JSON.stringify(userData),
         });
@@ -60,7 +65,7 @@ export const authAPI = {
 
     // Sign in user
     signIn: async (credentials) => {
-        return apiCall('/auth/login', {
+        return apiCall('/auth/login', true, {
             method: 'POST',
             body: JSON.stringify(credentials),
         });
@@ -79,25 +84,52 @@ export const authAPI = {
 export const serviceAPI = {
     // Register new user
     createService: async (userData) => {
-        return apiCall('/services', {
+        return apiCall('/services', true, {
             method: 'POST',
             body: JSON.stringify(userData),
         });
     },
     getAllServices: async () => {
-        return apiCall('/services', {
+        return apiCall('/services', true, {
             method: 'GET'
         });
     },
     updateService: async (userData, serviceId) => {
-        return apiCall(`/services/${serviceId}`, {
+        return apiCall(`/services/${serviceId}`, true, {
             method: 'PUT',
             body: JSON.stringify(userData),
         });
     },
     deleteService: async (serviceId) => {
-        return apiCall(`/services/${serviceId}`, {
+        return apiCall(`/services/${serviceId}`, true, {
             method: 'DELETE'
         });
     },
 };
+
+// Portfolio API calls
+export const portfolioApi = {
+    // Register new user
+    createPortfolio: async (requestPayload) => {
+        return apiCall('/portfolios', false, {
+            method: 'POST',
+            body: requestPayload
+        });
+    },
+    updatePortfolio: async (requestPayload, id) => {
+        return apiCall(`/portfolios/${id}`, false, {
+            method: 'PUT',
+            body: requestPayload
+        });
+    },
+    getAllPortfolio: async () => {
+        return apiCall('/portfolios', true, {
+            method: 'GET'
+        });
+    },
+    deletePortfolio: async (portfolioId) => {
+        return apiCall(`/portfolios/${portfolioId}`, true, {
+            method: 'DELETE'
+        });
+    },
+}
