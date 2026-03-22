@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { authAPI } from '../../lib/api';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 
 export default function SignInForm() {
     const router = useRouter();
@@ -131,6 +132,12 @@ export default function SignInForm() {
                             />
                         </div>
                     </div>
+                    <p className="mt-2 text-center text-sm text-gray-600">
+                        Don't have an account?{' '}
+                        <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
+                            Register Now
+                        </Link>
+                    </p>
 
                     <div>
                         <button
