@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation';
-import Link from "next/link";
 
 const DesktopNav = () => {
     const [token, setToken] = useState(null);
@@ -58,7 +57,7 @@ const DesktopNav = () => {
 
                 {/* Hamburger (Mobile) */}
                 <button
-                    className="md:hidden text-4xl"
+                    className="md:hidden text-6xl"
                     onClick={() => setOpen(!open)}
                 >
                     ☰
