@@ -119,8 +119,13 @@ export default function ServicesManager() {
 
     return (
         <div className="space-y-6">
+
+            {/* Header */}
             <div className="flex justify-between items-center">
-                <h3 className="text-lg font-medium text-gray-900">Available Services</h3>
+                <h3 className="text-lg font-medium text-gray-900">
+                    Available Services
+                </h3>
+
                 {!showForm && (
                     <button
                         onClick={() => setShowForm(true)}
@@ -131,56 +136,69 @@ export default function ServicesManager() {
                 )}
             </div>
 
-            {/* Service Form Section (Create/Edit) */}
+            {/* FORM */}
             {showForm && (
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 animate-in fade-in duration-300">
+                    
                     <h4 className="text-md font-semibold mb-4 text-gray-700">
                         {isEditing ? 'Edit Service' : 'Create New Service'}
                     </h4>
+
                     <form onSubmit={handleSubmit} className="space-y-4">
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Title
+                                </label>
+
                                 <input
                                     name="title"
                                     value={formData.title}
                                     onChange={handleChange}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                                    placeholder="e.g. AI Service"
-                                    required
                                 />
+
                                 {errors.title && (
                                     <p className="mt-1 text-sm text-red-600">{errors.title}</p>
                                 )}
                             </div>
+
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Type
+                                </label>
+
                                 <select
                                     name="type"
                                     value={formData.type}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white"
                                 >
                                     <option value="Product">Product</option>
                                     <option value="Manpower">Manpower</option>
                                 </select>
                             </div>
                         </div>
+
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Description
+                            </label>
+
                             <textarea
                                 name="description"
                                 value={formData.description}
                                 onChange={handleChange}
                                 rows="3"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                                placeholder="Describe the service..."
-                                required
                             />
+
                             {errors.description && (
                                 <p className="mt-1 text-sm text-red-600">{errors.description}</p>
                             )}
                         </div>
+
                         <div className="flex space-x-3 justify-end">
                             <button
                                 type="button"
@@ -189,6 +207,7 @@ export default function ServicesManager() {
                             >
                                 Cancel
                             </button>
+
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -197,37 +216,76 @@ export default function ServicesManager() {
                                 {loading ? 'Saving...' : isEditing ? 'Update Service' : 'Save Service'}
                             </button>
                         </div>
+
                     </form>
                 </div>
             )}
 
-            {/* List Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
+            {/* TABLE */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
+
+                <table className="w-full table-fixed divide-y divide-gray-200">
+
+                    {/* HEADER */}
                     <thead className="bg-gray-50">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th className="px-2 md:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Title
+                            </th>
+
+                            <th className="px-2 md:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Type
+                            </th>
+
+                            <th className="px-2 md:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+                                Description
+                            </th>
+
+                            <th className="px-2 md:px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
+
+                    {/* BODY */}
                     <tbody className="bg-white divide-y divide-gray-200">
+
                         {services.map((service, index) => (
                             <tr key={index}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{service.title}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">{service.type}</span>
+
+                                {/* TITLE */}
+                                <td className="px-2 md:px-4 py-3 text-sm font-medium text-gray-900">
+                                    {service.title}
                                 </td>
-                                <td className="px-6 py-4 text-sm text-gray-500 truncate max-w-xs">{service.description}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button
-                                        onClick={() => handleEdit(service)}
-                                        className="text-blue-600 hover:text-blue-900 mr-4"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button className="text-red-600 hover:text-red-900" onClick={() => handleDeleteConfirmation(service)}>Delete</button>
+
+                                {/* TYPE */}
+                                <td className="px-2 md:px-4 py-3 text-sm text-gray-500">
+                                    <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                                        {service.type}
+                                    </span>
+                                </td>
+
+                                {/* DESCRIPTION (hidden on mobile/tablet) */}
+                                <td className="px-2 md:px-4 py-3 text-sm text-gray-500 truncate max-w-xs hidden lg:table-cell">
+                                    {service.description}
+                                </td>
+
+                                {/* ACTIONS */}
+                                <td className="px-2 md:px-4 py-3 text-right text-sm font-medium">
+                                    <div className="flex flex-wrap justify-end gap-2">
+                                        <button
+                                            onClick={() => handleEdit(service)}
+                                            className="text-blue-600 hover:text-blue-900"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteConfirmation(service)}
+                                            className="text-red-600 hover:text-red-900"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

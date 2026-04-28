@@ -4,7 +4,7 @@ import { portfolioApi } from '../../../lib/api';
 
 export default function PortfolioManager() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
-    
+
     const [profolios, setPortfolios] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -139,8 +139,13 @@ export default function PortfolioManager() {
 
     return (
         <div className="space-y-6">
+
+            {/* Header */}
             <div className="flex justify-between items-center">
-                <h3 className="text-lg font-medium text-gray-900">Available profolios</h3>
+                <h3 className="text-lg font-medium text-gray-900">
+                    Available portfolios
+                </h3>
+
                 {!showForm && (
                     <button
                         onClick={() => setShowForm(true)}
@@ -151,13 +156,16 @@ export default function PortfolioManager() {
                 )}
             </div>
 
-            {/* Service Form Section (Create/Edit) */}
+            {/* FORM */}
             {showForm && (
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 animate-in fade-in duration-300">
+
                     <h4 className="text-md font-semibold mb-4 text-gray-700">
                         {isEditing ? 'Edit Portfolio' : 'Create New Portfolio'}
                     </h4>
+
                     <form onSubmit={handleSubmit} className="space-y-4">
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
@@ -166,14 +174,11 @@ export default function PortfolioManager() {
                                     value={formData.title}
                                     onChange={handleChange}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                                    placeholder="e.g. AI Portfolio"
                                     required
                                 />
-                                {errors.title && (
-                                    <p className="mt-1 text-sm text-red-600">{errors.title}</p>
-                                )}
                             </div>
                         </div>
+
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                             <textarea
@@ -182,51 +187,45 @@ export default function PortfolioManager() {
                                 onChange={handleChange}
                                 rows="3"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                                placeholder="Describe the service..."
                                 required
                             />
-                            {errors.description && (
-                                <p className="mt-1 text-sm text-red-600">{errors.description}</p>
-                            )}
                         </div>
+
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
                             <input
                                 name="tags"
                                 value={formData.tags}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                                placeholder="e.g. AI Service"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                             />
-                            {errors.tags && (
-                                <p className="mt-1 text-sm text-red-600">{errors.tags}</p>
-                            )}
                         </div>
+
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Project Link</label>
                             <input
                                 name="project_link"
                                 value={formData.project_link}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                                placeholder="e.g. AI Service"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                             />
-                            {errors.project_link && (
-                                <p className="mt-1 text-sm text-red-600">{errors.project_link}</p>
-                            )}
                         </div>
+
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Portfolio Image</label>
                             <input
-                                type='file'
+                                type="file"
                                 name="image"
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                                placeholder="e.g. AI Service"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                             />
-                            {objectUrl && <img alt='portfolio' src={objectUrl} height={150} width={150} />}
-                            {errors.image && (
-                                <p className="mt-1 text-sm text-red-600">{errors.image}</p>
+
+                            {objectUrl && (
+                                <img
+                                    alt="portfolio"
+                                    src={objectUrl}
+                                    className="w-24 h-24 mt-2 object-cover rounded"
+                                />
                             )}
                         </div>
 
@@ -238,6 +237,7 @@ export default function PortfolioManager() {
                             >
                                 Cancel
                             </button>
+
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -246,49 +246,109 @@ export default function PortfolioManager() {
                                 {loading ? 'Saving...' : isEditing ? 'Update Service' : 'Save Service'}
                             </button>
                         </div>
+
                     </form>
                 </div>
             )}
 
-            {/* List Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                <table className="min-w-full divide-y divide-gray-200">
+            {/* TABLE */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
+
+                <table className="w-full table-auto divide-y divide-gray-200">
+
+                    {/* HEAD */}
                     <thead className="bg-gray-50">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tags</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Image
+                            </th>
+
+                            <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Title
+                            </th>
+
+                            <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Tags
+                            </th>
+
+                            <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+                                Description
+                            </th>
+
+                            <th className="px-3 md:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
+
+                    {/* BODY */}
                     <tbody className="bg-white divide-y divide-gray-200">
+
                         {profolios.map((portfolio, index) => (
                             <tr key={index}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {portfolio.image && <img src={`${API_URL}/uploads/${portfolio.image}`} alt="portfolio" height={150} width={150} />}
+
+                                {/* IMAGE */}
+                                <td className="px-3 md:px-6 py-4">
+                                    {portfolio.image && (
+                                        <img
+                                            src={`${API_URL}/uploads/${portfolio.image}`}
+                                            alt="portfolio"
+                                            className="w-12 h-12 md:w-20 md:h-20 object-cover"
+                                        />
+                                    )}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{portfolio.title}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {portfolio.tags && portfolio.tags.split(",").map((tag, index) => (
-                                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs mx-1" key={index}>{tag}</span>
-                                    ))}
+
+                                {/* TITLE */}
+                                <td className="px-3 md:px-6 py-4 text-sm font-medium text-gray-900">
+                                    {portfolio.title}
                                 </td>
-                                <td className="px-6 py-4 text-sm text-gray-500 truncate max-w-xs">{portfolio.description}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button
-                                        onClick={() => handleEdit(portfolio)}
-                                        className="text-blue-600 hover:text-blue-900 mr-4"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button className="text-red-600 hover:text-red-900" onClick={() => handleDeleteConfirmation(portfolio)}>Delete</button>
+
+                                {/* TAGS (hidden mobile/tablet) */}
+                                <td className="px-3 md:px-6 py-4">
+                                    <div className="flex flex-wrap gap-1">
+                                        {portfolio.tags && portfolio.tags.split(",").map((tag, index) => (
+                                            <span
+                                                key={index}
+                                                className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs"
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </td>
+
+                                {/* DESCRIPTION (hidden until large screens) */}
+                                <td className="px-3 md:px-6 py-4 text-sm text-gray-500 truncate max-w-xs hidden lg:table-cell">
+                                    {portfolio.description}
+                                </td>
+
+                                {/* ACTIONS */}
+                                <td className="px-3 md:px-6 py-4 text-right text-sm font-medium">
+                                    <div className="flex flex-wrap justify-end gap-2">
+                                        <button
+                                            onClick={() => handleEdit(portfolio)}
+                                            className="text-blue-600 hover:text-blue-900"
+                                        >
+                                            Edit
+                                        </button>
+
+                                        <button
+                                            onClick={() => handleDeleteConfirmation(portfolio)}
+                                            className="text-red-600 hover:text-red-900"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+
                             </tr>
                         ))}
+
                     </tbody>
+
                 </table>
             </div>
+
         </div>
     );
 }
